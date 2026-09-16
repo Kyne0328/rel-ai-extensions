@@ -44,6 +44,20 @@ Add the same command to `requires.commands`.
 
 Declare `command.execute` when the workflow expects Rel.AI to run the command.
 
+## Keep package bytes stable
+
+Rel.AI verifies the exact bytes that it downloads.
+Line-ending changes can change a SHA-256 hash.
+
+For text package files, add this `.gitattributes` file to the extension repository:
+
+```gitattributes
+* text=auto eol=lf
+```
+
+Commit `.gitattributes` before you calculate package hashes.
+This keeps text files on LF line endings on Windows, macOS, and Linux.
+
 ## Calculate package hashes
 
 Calculate the SHA-256 hash from the exact bytes that you publish.
