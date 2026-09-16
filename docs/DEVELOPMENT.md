@@ -7,6 +7,9 @@ This guide describes the development, validation, test, and publishing workflow 
 Install Node.js 20 or later and npm.
 Create a GitHub repository for the extension source.
 
+The published manifest and package files must use HTTPS.
+Rel.AI must be able to download them without authentication.
+
 Clone the catalog repository:
 
 ```bash
@@ -79,12 +82,12 @@ npm test
 ## Test an unpublished extension
 
 Rel.AI accepts an HTTPS catalog override through `REL_AI_EXTENSIONS_CATALOG_URL`.
-Use a temporary catalog on a GitHub fork or branch.
+Use a temporary catalog on a public GitHub fork or branch.
 
 Do not add a local-file installer path.
 The test uses the same HTTPS download path as the public catalog.
 
-1. Push the extension manifest and package files to a test branch in the extension repository.
+1. Push the extension manifest and package files to a public test branch in the extension repository.
 2. Fork `Kyne0328/rel-ai-extensions`.
 3. Create a test branch in the fork.
 4. Add a temporary catalog entry for the extension.
@@ -120,6 +123,7 @@ Remove the temporary catalog entry after the test.
 
 Publish the extension files before you submit the catalog entry.
 The public manifest URL must return the exact manifest that you validated.
+All published package files must remain accessible without authentication.
 
 Then:
 
