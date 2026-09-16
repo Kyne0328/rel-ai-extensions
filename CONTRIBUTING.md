@@ -15,7 +15,9 @@ State which local capabilities the extension needs.
 - Permission declarations inform the user. Rel.AI authorization still controls access.
 - List every package file in `relai-extension.json`.
 - Include the SHA-256 hash of every package file.
-- Use HTTPS for repository URLs and catalog manifest URLs.
+- Use HTTPS for catalog manifest URLs.
+- Use a valid repository URL.
+- Keep published manifests and package files accessible without authentication.
 
 ## Contribution workflow
 
