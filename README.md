@@ -1,6 +1,6 @@
 # Rel.AI Extensions
 
-This repository contains the public Rel.AI extension catalog and package specification.
+This repository contains the public Rel.AI extension catalog, package specification, examples, and validation tools.
 
 Rel.AI extensions add workflows and adapters. ChatGPT Web remains the conversation and reasoning host.
 Extensions use existing Rel.AI capabilities. Rel.AI authorization, workspace, and audit rules still apply.
@@ -15,6 +15,48 @@ Rel.AI 1.x supports two extension types:
 Rel.AI does not load extension packages as executable service code.
 A manifest can declare required access. These declarations do not grant access.
 Rel.AI authorization controls each local action.
+
+## Start developing
+
+Requirements:
+
+- Node.js 20 or later
+- npm
+- a GitHub repository for your extension
+
+Clone this repository and install the validator:
+
+```bash
+git clone https://github.com/Kyne0328/rel-ai-extensions.git
+cd rel-ai-extensions
+npm ci
+npm run validate
+```
+
+Use [`examples/hello-relai`](examples/hello-relai) for a skill example.
+Use [`examples/hello-relai-cli`](examples/hello-relai-cli) for a CLI example.
+
+Read [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the complete development and test workflow.
+Read [`docs/PERMISSIONS.md`](docs/PERMISSIONS.md) before you declare permissions.
+
+## Validate an extension
+
+Run the validator against a local manifest:
+
+```bash
+npm run validate:manifest -- ../my-extension/relai-extension.json
+```
+
+The validator checks the manifest, package paths, file sizes, SHA-256 hashes, semantic versions, CLI requirements, and other runtime rules.
+
+Run the complete repository validation with:
+
+```bash
+npm test
+```
+
+The complete validation also checks `catalog.json`.
+For catalog entries, it checks the published manifest and package files.
 
 ## Package format
 
@@ -31,7 +73,6 @@ The manifest records:
 - package files and SHA-256 hashes
 
 See [`schema/relai-extension.schema.json`](schema/relai-extension.schema.json) for the machine-readable format.
-See [`examples/hello-relai`](examples/hello-relai) for a minimal example.
 
 ## Catalog
 
@@ -49,12 +90,21 @@ During installation, Rel.AI:
 
 Rel.AI does not install extension files in a project folder.
 
-## Publishing
+## Publish an extension
 
-1. Create `SKILL.md` and `relai-extension.json` in your repository.
-2. Request only the permissions that the extension needs.
-3. Calculate a SHA-256 hash for each package file.
-4. Put each file and hash in the manifest.
-5. Add one entry to `catalog.json`.
-6. Set `manifestUrl` to the raw HTTPS manifest URL.
-7. Validate the manifest against the schema before you submit it.
+1. Develop and validate the extension in its own repository.
+2. Test it with a temporary catalog on your fork or branch.
+3. Fork this repository.
+4. Add one entry to `catalog.json`.
+5. Update `updatedAt`.
+6. Run `npm test`.
+7. Open a pull request.
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the review rules.
+
+## License
+
+This repository uses the Apache License 2.0.
+
+An extension can use a different license in its own repository.
+Adding an extension to the catalog does not change the extension license.
