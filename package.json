@@ -1,0 +1,20 @@
+{
+  "name": "rel-ai-extensions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Public catalog, examples, and validation tools for Rel.AI extensions.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "validate:manifest": "node scripts/validate.mjs manifest",
+    "validate:catalog": "node scripts/validate.mjs catalog catalog.json",
+    "test": "npm run validate"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "semver": "7.8.5"
+  }
+}
