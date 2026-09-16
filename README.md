@@ -1,34 +1,60 @@
 # Rel.AI Extensions
 
-Canonical catalog and package specification for extensions used by Rel.AI MCP.
+This repository contains the public Rel.AI extension catalog and package specification.
 
-Rel.AI extensions add reusable workflows and adapters without replacing the model. **ChatGPT Web remains the conversation and reasoning host.** Extensions use Rel.AI's existing local capabilities, authorization policy, workspace boundaries, and audit behavior.
+Rel.AI extensions add workflows and adapters. ChatGPT Web remains the conversation and reasoning host.
+Extensions use existing Rel.AI capabilities. Rel.AI authorization, workspace, and audit rules still apply.
 
 ## Extension types
 
-Rel.AI 1.x supports two declarative extension types:
+Rel.AI 1.x supports two extension types:
 
-- **skill** — a `SKILL.md` that teaches ChatGPT how to use an external project, workflow, or existing Rel.AI capability.
-- **cli** — a skill plus a required local command. ChatGPT still reasons in the conversation and invokes the CLI through Rel.AI's existing execution tools.
+- **skill** — A `SKILL.md` file tells ChatGPT how to use a project, workflow, or Rel.AI capability.
+- **cli** — A skill also requires a local command. Rel.AI runs that command through its existing execution tools.
 
-Extensions are not imported as arbitrary executable code into the Rel.AI service process. A manifest may declare the access an extension expects, but those declarations do not grant authority; normal Rel.AI authorization remains the enforcement boundary.
+Rel.AI does not load extension packages as executable service code.
+A manifest can declare required access. These declarations do not grant access.
+Rel.AI authorization controls each local action.
 
 ## Package format
 
-Every extension has a `relai-extension.json` manifest and at least one hashed package file. The manifest declares identity, semantic version, compatible Rel.AI versions, publisher, repository, requested permissions, local requirements, entrypoints, and SHA-256 hashes.
+Each extension contains a `relai-extension.json` manifest and at least one package file.
 
-See [`schema/relai-extension.schema.json`](schema/relai-extension.schema.json) for the machine-readable format and [`examples/hello-relai`](examples/hello-relai) for a minimal reference package.
+The manifest records:
+
+- extension identity and version
+- compatible Rel.AI versions
+- publisher and repository
+- requested permissions
+- local requirements
+- entry points
+- package files and SHA-256 hashes
+
+See [`schema/relai-extension.schema.json`](schema/relai-extension.schema.json) for the machine-readable format.
+See [`examples/hello-relai`](examples/hello-relai) for a minimal example.
 
 ## Catalog
 
-[`catalog.json`](catalog.json) is the canonical public index consumed by Rel.AI. Catalog entries point to HTTPS manifests in extension repositories. Rel.AI downloads the selected manifest server-side, verifies catalog identity/version/kind/permissions, checks compatibility, downloads only declared files, verifies every SHA-256 checksum, and installs the package into Rel.AI local data rather than a project folder.
+[`catalog.json`](catalog.json) is the public extension index that Rel.AI uses.
+Each catalog entry points to an HTTPS manifest.
+
+During installation, Rel.AI:
+
+1. downloads the selected manifest
+2. checks its identity, version, type, and permissions against the catalog
+3. checks Rel.AI compatibility and local requirements
+4. downloads only the files that the manifest lists
+5. verifies each file with its SHA-256 hash
+6. installs the extension in Rel.AI local data
+
+Rel.AI does not install extension files in a project folder.
 
 ## Publishing
 
 1. Create `SKILL.md` and `relai-extension.json` in your repository.
-2. Keep requested permissions limited to the workflow's actual needs.
-3. Hash every packaged file and put the SHA-256 values in the manifest.
-4. Add one entry to `catalog.json` that points to the raw HTTPS manifest URL.
-5. Validate the manifest against the schema before submitting it.
-
-OpenResearch is intentionally not included in the initial catalog foundation.
+2. Request only the permissions that the extension needs.
+3. Calculate a SHA-256 hash for each package file.
+4. Put each file and hash in the manifest.
+5. Add one entry to `catalog.json`.
+6. Set `manifestUrl` to the raw HTTPS manifest URL.
+7. Validate the manifest against the schema before you submit it.

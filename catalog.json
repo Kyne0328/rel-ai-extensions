@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-16T03:00:00.000Z",
+  "updatedAt": "2026-09-16T03:22:00.000Z",
   "extensions": [
     {
       "id": "hello-relai",
       "name": "Hello Rel.AI",
       "version": "1.0.0",
-      "description": "Reference extension demonstrating the Rel.AI extension package format.",
+      "description": "Reference extension for the Rel.AI package format.",
       "kind": "skill",
       "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/examples/hello-relai/relai-extension.json",
       "repository": "https://github.com/Kyne0328/rel-ai-extensions",

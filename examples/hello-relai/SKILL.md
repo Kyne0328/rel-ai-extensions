@@ -1,8 +1,11 @@
 ---
 name: hello-relai
-description: Demonstrates the Rel.AI extension package format using existing Rel.AI tools and ChatGPT reasoning.
+description: Shows the Rel.AI extension package format with existing Rel.AI tools and ChatGPT reasoning.
 ---
 
 # Hello Rel.AI
 
-Use this reference extension to explain that extension skills run through ChatGPT and existing Rel.AI capabilities. Do not claim extra permissions or bypass Rel.AI authorization.
+Use this extension to explain the Rel.AI extension format.
+ChatGPT runs the skill instructions. Rel.AI supplies the local capabilities.
+Do not claim permissions that the manifest does not declare.
+Do not bypass Rel.AI authorization.
