@@ -24,6 +24,8 @@ Requirements:
 - npm
 - a GitHub repository for your extension
 
+Published manifests and package files must use HTTPS and must be accessible without authentication.
+
 Clone this repository and install the validator:
 
 ```bash
