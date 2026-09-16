@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "hello-relai",
+  "name": "Hello Rel.AI",
+  "version": "1.0.0",
+  "description": "Reference extension demonstrating the Rel.AI extension package format.",
+  "kind": "skill",
+  "compatibility": {
+    "relai": ">=1.0.1 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [],
+  "requires": {
+    "commands": [],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "825d67b0cbebbb7407aad392298569a1a41bdd786811202d8f723d5164ac9420"
+    }
+  ]
+}
