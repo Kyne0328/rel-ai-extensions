@@ -1,6 +1,7 @@
 # Contributing extensions
 
-Keep extensions small and declarative. State which local capabilities the extension needs.
+Keep extensions small and declarative.
+State which local capabilities the extension needs.
 
 ## Before publishing
 
@@ -15,6 +16,22 @@ Keep extensions small and declarative. State which local capabilities the extens
 - List every package file in `relai-extension.json`.
 - Include the SHA-256 hash of every package file.
 - Use HTTPS for repository URLs and catalog manifest URLs.
+
+## Contribution workflow
+
+1. Fork this repository.
+2. Create a branch for the extension entry.
+3. Add or update one entry in `catalog.json`.
+4. Update `updatedAt`.
+5. Run `npm ci`.
+6. Run `npm test`.
+7. Open a pull request.
+
+Keep the extension source in the extension repository.
+Do not copy the complete extension package into this catalog repository.
+
+Use a temporary catalog on your fork to test an unpublished extension.
+See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the test procedure.
 
 ## Catalog entry
 
@@ -44,10 +61,19 @@ Update the catalog entry when you publish the new version.
 
 ## Review checklist
 
-1. Validate the manifest against `schema/relai-extension.schema.json`.
+1. Validate the manifest with `npm run validate:manifest -- <path>`.
 2. Calculate each SHA-256 hash from the exact published file bytes.
 3. Confirm that `entrypoints.skill` names a file in the manifest.
 4. For a CLI extension, confirm that `entrypoints.command` names the required command.
 5. For a CLI extension, list the same command in `requires.commands`.
 6. Confirm that the requested permissions match the documented workflow.
 7. Confirm that the catalog entry matches the manifest.
+8. Run `npm test`.
+9. Confirm that GitHub Actions passes.
+
+## Licensing
+
+This catalog repository uses the Apache License 2.0.
+
+An extension author controls the license for the extension repository.
+A catalog entry does not change that license.
