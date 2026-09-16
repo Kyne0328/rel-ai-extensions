@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "hello-relai-cli",
+  "name": "Hello Rel.AI CLI",
+  "version": "1.0.0",
+  "description": "Reference CLI extension for the Rel.AI package format.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.0.1 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "command.execute"
+  ],
+  "requires": {
+    "commands": [
+      "node"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "node"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "c98b514ad97cd3b3652f12d704194ff2c521175f0fc0238d2824afc4e67bae27"
+    }
+  ]
+}
