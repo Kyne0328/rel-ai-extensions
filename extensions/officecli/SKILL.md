@@ -14,6 +14,7 @@ OfficeCLI is installed and executed as a local CLI through Rel.AI. Keep Rel.AI's
 - Use `relai_exec` for one-shot `officecli` commands. Prefer direct executable + argv form when shell syntax is not needed.
 - Use `relai_process` only for long-lived commands such as `officecli watch`.
 - Use `relai_ui` or `relai_browser` for the localhost preview created by `officecli watch`.
+- Set `OFFICECLI_SKIP_UPDATE=1` in the environment for every managed OfficeCLI invocation. Rel.AI pins the reviewed binary; OfficeCLI must not self-update it in place.
 - Prefer `--json` whenever the command supports structured output.
 - When unsure about a property, element, or command syntax, run `officecli help ...` instead of guessing.
 
