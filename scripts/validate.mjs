@@ -509,3 +509,5 @@ export {
   validateCatalog,
   validateCatalogFile,
   validateLocalManifest,
+  validateManifest
+};
