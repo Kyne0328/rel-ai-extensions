@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-18T03:30:00.000Z",
+  "updatedAt": "2026-09-18T05:07:00.000Z",
   "extensions": [
     {
       "id": "hello-relai",
@@ -20,8 +20,8 @@
       "version": "1.0.0",
       "description": "Rel.AI integration for OfficeCLI to create, inspect, edit, validate, and visually review Word, Excel, and PowerPoint files.",
       "kind": "cli",
-      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/officecli/relai-extension.json",
-      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extension-officecli/main/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extension-officecli",
       "publisher": "Kyne",
       "permissions": [
         "workspace.read",
