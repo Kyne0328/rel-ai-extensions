@@ -29,7 +29,8 @@
         "command.execute",
         "browser"
       ],
-      "featured": true
+      "featured": true,
+      "autoInstall": true
     }
   ]
 }
