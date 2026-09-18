@@ -36,13 +36,15 @@ List every package file in `relai-extension.json`.
 
 Start from [`examples/hello-relai-cli`](../examples/hello-relai-cli).
 
-A CLI extension uses an existing command on the user's computer.
-It does not install that command.
+A CLI extension uses a command through Rel.AI's existing execution tools.
 
-Set `entrypoints.command` to the command name.
-Add the same command to `requires.commands`.
+Set `entrypoints.command` to the command name and add the same command to `requires.commands`.
+Declare `command.execute`; CLI extensions require it.
 
-Declare `command.execute` when the workflow expects Rel.AI to run the command.
+If the command must already exist on the user's computer, omit `install`.
+If Rel.AI should install the command when it is missing, add `install.type: "binary"` with one or more platform/architecture artifacts. Each artifact must use HTTPS and include the SHA-256 hash of the exact published binary. Rel.AI installs the matching artifact under its own local state, appends that managed bin directory to child-process PATH, and does not modify the user's system PATH.
+
+Supported auto-install targets are `win32`, `darwin`, and `linux` with `x64` or `arm64`. Reserved runtime and shell command names cannot be auto-installed.
 
 ## Keep package bytes stable
 
@@ -74,7 +76,7 @@ macOS or Linux:
 sha256sum SKILL.md
 ```
 
-Put the lowercase hash in the matching `files` entry.
+Put the lowercase hash in the matching `files` entry. For auto-installed CLI binaries, put the published binary's lowercase SHA-256 value in the matching `install.artifacts` entry.
 
 ## Validate before you publish
 

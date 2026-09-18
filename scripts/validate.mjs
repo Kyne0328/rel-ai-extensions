@@ -9,6 +9,7 @@ const MAX_CATALOG_BYTES = 1024 * 1024;
 const MAX_MANIFEST_BYTES = 256 * 1024;
 const MAX_EXTENSION_FILE_BYTES = 1024 * 1024;
 const MAX_EXTENSION_TOTAL_BYTES = 8 * 1024 * 1024;
+const MAX_INSTALL_ARTIFACT_BYTES = 64 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 8000;
 const ID_PATTERN = /^[a-z0-9][a-z0-9.-]{0,79}$/;
 const COMMAND_PATTERN = /^[A-Za-z0-9._+-]{1,100}$/;
@@ -23,6 +24,11 @@ const PERMISSIONS = Object.freeze([
   'computer'
 ]);
 const PLATFORMS = Object.freeze(['win32', 'darwin', 'linux']);
+const ARCHITECTURES = Object.freeze(['x64', 'arm64']);
+const RESERVED_MANAGED_COMMANDS = new Set([
+  'bash', 'cmd', 'git', 'node', 'npm', 'npx', 'powershell', 'pwsh', 'python', 'python3',
+  'rel-ai-mcp', 'rel-ai-mcp-http', 'sh', 'zsh'
+]);
 const CANONICAL_RAW_PREFIX = 'https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/';
 
 function fail(label, errors) {
@@ -79,7 +85,7 @@ function validateManifest(manifest, label = 'extension manifest') {
 
   checkKeys(manifest, [
     'schemaVersion', 'id', 'name', 'version', 'description', 'kind', 'compatibility',
-    'publisher', 'repository', 'homepage', 'permissions', 'requires', 'entrypoints', 'files'
+    'publisher', 'repository', 'homepage', 'permissions', 'requires', 'entrypoints', 'install', 'files'
   ], 'manifest', errors);
   if (manifest.schemaVersion !== 1) errors.push('schemaVersion must be 1.');
   if (!validText(manifest.id, 1, 80) || !ID_PATTERN.test(manifest.id)) {
@@ -195,6 +201,42 @@ function validateManifest(manifest, label = 'extension manifest') {
                  !manifest.requires.commands.includes(manifest.entrypoints.command)) {
         errors.push('CLI extensions must list entrypoints.command in requires.commands.');
       }
+      if (!Array.isArray(manifest.permissions) || !manifest.permissions.includes('command.execute')) {
+        errors.push('CLI extensions must declare command.execute.');
+      }
+    }
+  }
+
+  if (manifest.install !== undefined) {
+    if (manifest.kind !== 'cli') errors.push('Only CLI extensions may declare install artifacts.');
+    if (!isRecord(manifest.install)) {
+      errors.push('install must be an object.');
+    } else {
+      checkKeys(manifest.install, ['type', 'artifacts'], 'install', errors);
+      if (manifest.install.type !== 'binary') errors.push("install.type must be 'binary'.");
+      const command = String(manifest.entrypoints?.command || '').toLowerCase().replace(/\.(?:exe|cmd|bat|com)$/i, '');
+      if (RESERVED_MANAGED_COMMANDS.has(command)) errors.push('entrypoints.command is reserved and cannot be auto-installed.');
+      if (!Array.isArray(manifest.install.artifacts) || manifest.install.artifacts.length < 1 || manifest.install.artifacts.length > 12) {
+        errors.push('install.artifacts must contain 1 to 12 items.');
+      } else {
+        const targets = new Set();
+        for (const [index, artifact] of manifest.install.artifacts.entries()) {
+          if (!isRecord(artifact)) {
+            errors.push(`install.artifacts[${index}] must be an object.`);
+            continue;
+          }
+          checkKeys(artifact, ['platform', 'arch', 'url', 'sha256'], `install.artifacts[${index}]`, errors);
+          if (!PLATFORMS.includes(artifact.platform)) errors.push(`install.artifacts[${index}].platform is invalid.`);
+          if (!ARCHITECTURES.includes(artifact.arch)) errors.push(`install.artifacts[${index}].arch is invalid.`);
+          if (!isHttpsUrl(artifact.url)) errors.push(`install.artifacts[${index}].url must use HTTPS.`);
+          if (typeof artifact.sha256 !== 'string' || !SHA256_PATTERN.test(artifact.sha256)) {
+            errors.push(`install.artifacts[${index}].sha256 must be a lowercase SHA-256 value.`);
+          }
+          const target = `${artifact.platform}/${artifact.arch}`;
+          if (targets.has(target)) errors.push(`duplicate install artifact target: ${target}.`);
+          targets.add(target);
+        }
+      }
     }
   }
 
@@ -220,7 +262,7 @@ function validateCatalog(catalog, label = 'extension catalog') {
       }
       checkKeys(entry, [
         'id', 'name', 'version', 'description', 'kind', 'manifestUrl',
-        'repository', 'publisher', 'permissions', 'featured'
+        'repository', 'publisher', 'permissions', 'autoInstall', 'featured'
       ], `extensions[${index}]`, errors);
       if (!validText(entry.id, 1, 80) || !ID_PATTERN.test(entry.id)) {
         errors.push(`extensions[${index}].id is invalid.`);
@@ -247,6 +289,9 @@ function validateCatalog(catalog, label = 'extension catalog') {
           if (seenPermissions.has(permission)) errors.push(`extensions[${index}] has duplicate permission ${String(permission)}.`);
           seenPermissions.add(permission);
         }
+      }
+      if (entry.autoInstall !== undefined && typeof entry.autoInstall !== 'boolean') {
+        errors.push(`extensions[${index}].autoInstall must be true or false.`);
       }
       if (entry.featured !== undefined && typeof entry.featured !== 'boolean') {
         errors.push(`extensions[${index}].featured must be true or false.`);
@@ -297,10 +342,11 @@ function validateLocalManifest(manifestPath) {
   return manifest;
 }
 
-async function fetchBytes(url, maxBytes, label) {
+async function fetchBytes(url, maxBytes, label, options = {}) {
   if (!isHttpsUrl(url)) throw new Error(`${label} URL must use HTTPS.`);
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timeoutMs = Math.min(120_000, Math.max(1_000, Number(options.timeoutMs) || REQUEST_TIMEOUT_MS));
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(url, {
       signal: controller.signal,
@@ -363,21 +409,35 @@ async function validateCatalogEntry(entry, repoRoot) {
   if (!sameStringSet(manifest.permissions, entry.permissions)) {
     throw new Error(`${entry.id}: catalog permissions do not match the manifest.`);
   }
+  if (Boolean(manifest.install) !== Boolean(entry.autoInstall)) {
+    throw new Error(`${entry.id}: catalog autoInstall does not match the manifest.`);
+  }
 
   if (localRoot) {
     verifyLocalFiles(localManifestPath, manifest);
-    return;
+  } else {
+    let totalBytes = 0;
+    for (const file of manifest.files) {
+      const fileUrl = new URL(file.path.replaceAll('\\', '/'), entry.manifestUrl).href;
+      const content = await fetchBytes(fileUrl, MAX_EXTENSION_FILE_BYTES, `${entry.id}/${file.path}`);
+      totalBytes += content.length;
+      if (totalBytes > MAX_EXTENSION_TOTAL_BYTES) throw new Error(`${entry.id}: package exceeds the 8 MiB total size limit.`);
+      const digest = crypto.createHash('sha256').update(content).digest('hex');
+      if (digest !== file.sha256) {
+        throw new Error(`${entry.id}/${file.path}: SHA-256 mismatch. Expected ${file.sha256}, got ${digest}.`);
+      }
+    }
   }
-
-  let totalBytes = 0;
-  for (const file of manifest.files) {
-    const fileUrl = new URL(file.path.replaceAll('\\', '/'), entry.manifestUrl).href;
-    const content = await fetchBytes(fileUrl, MAX_EXTENSION_FILE_BYTES, `${entry.id}/${file.path}`);
-    totalBytes += content.length;
-    if (totalBytes > MAX_EXTENSION_TOTAL_BYTES) throw new Error(`${entry.id}: package exceeds the 8 MiB total size limit.`);
+  for (const artifact of manifest.install?.artifacts || []) {
+    const content = await fetchBytes(
+      artifact.url,
+      MAX_INSTALL_ARTIFACT_BYTES,
+      `${entry.id} binary ${artifact.platform}/${artifact.arch}`,
+      { timeoutMs: 120_000 }
+    );
     const digest = crypto.createHash('sha256').update(content).digest('hex');
-    if (digest !== file.sha256) {
-      throw new Error(`${entry.id}/${file.path}: SHA-256 mismatch. Expected ${file.sha256}, got ${digest}.`);
+    if (digest !== artifact.sha256) {
+      throw new Error(`${entry.id} binary ${artifact.platform}/${artifact.arch}: SHA-256 mismatch. Expected ${artifact.sha256}, got ${digest}.`);
     }
   }
 }
