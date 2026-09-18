@@ -10,7 +10,7 @@ Extensions use existing Rel.AI capabilities. Rel.AI authorization, workspace, an
 Rel.AI 1.x supports two extension types:
 
 - **skill** — A `SKILL.md` file tells ChatGPT how to use a project, workflow, or Rel.AI capability.
-- **cli** — A skill also requires a local command. Rel.AI runs that command through its existing execution tools.
+- **cli** — A skill also requires a local command. Rel.AI runs that command through its existing execution tools. A CLI extension may optionally declare SHA-256-pinned platform binaries for Rel.AI to auto-install when the command is missing.
 
 Rel.AI does not load extension packages as executable service code.
 A manifest can declare required access. These declarations do not grant access.
@@ -87,8 +87,9 @@ During installation, Rel.AI:
 2. checks its identity, version, type, and permissions against the catalog
 3. checks Rel.AI compatibility and local requirements
 4. downloads only the files that the manifest lists
-5. verifies each file with its SHA-256 hash
-6. installs the extension in Rel.AI local data
+5. verifies each package file with its SHA-256 hash
+6. when a CLI command is missing and the manifest declares a compatible binary artifact, downloads that HTTPS artifact and verifies its SHA-256 hash
+7. installs the extension and any managed CLI binary in Rel.AI local data
 
 Rel.AI does not install extension files in a project folder.
 
