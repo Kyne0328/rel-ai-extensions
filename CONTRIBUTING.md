@@ -25,9 +25,13 @@ State which local capabilities the extension needs.
 2. Create a branch for the extension entry.
 3. Add or update one entry in `catalog.json`.
 4. Update `updatedAt`.
-5. Run `npm ci`.
-6. Run `npm test`.
-7. Open a pull request.
+5. Run `npm run readme:update`.
+6. Run `npm ci`.
+7. Run `npm test`.
+8. Open a pull request.
+
+The README extension table is generated from `catalog.json`.
+Do not edit the generated table by hand.
 
 Keep the extension source in the extension repository.
 Do not copy the complete extension package into this catalog repository.

@@ -146,9 +146,13 @@ Then:
 1. Fork this repository.
 2. Add the extension entry to `catalog.json`.
 3. Update `updatedAt`.
-4. Run `npm test`.
-5. Push the branch.
-6. Open a pull request.
+4. Run `npm run readme:update`.
+5. Run `npm test`.
+6. Push the branch.
+7. Open a pull request.
+
+The README extension table is generated from `catalog.json`.
+Do not edit the generated table by hand.
 
 GitHub Actions runs the same validation on the pull request.
 

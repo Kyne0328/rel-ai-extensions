@@ -2,113 +2,110 @@
 
 This repository contains the public Rel.AI extension catalog, package specification, examples, and validation tools.
 
-Rel.AI extensions add workflows and adapters. ChatGPT Web remains the conversation and reasoning host.
-Extensions use existing Rel.AI capabilities. Rel.AI authorization, workspace, and audit rules still apply.
+The catalog is for discovery and installation metadata. Keep each real extension in its own repository.
+
+## Available extensions
+
+`catalog.json` is the source of truth for this list. Run `npm run readme:update` after you change the catalog.
+
+<!-- catalog:extensions:start -->
+| Extension | Type | Version | Managed install | Description |
+| --- | --- | --- | --- | --- |
+| [OfficeCLI](https://github.com/Kyne0328/rel-ai-extension-officecli) | `cli` | `1.0.0` | Yes | Create, inspect, edit, validate, and visually review Word, Excel, and PowerPoint files. |
+<!-- catalog:extensions:end -->
+
+Review an extension repository before installation. A catalog entry does not grant extra access.
+
+## Repository layout
+
+```text
+rel-ai-extensions/
+├── catalog.json
+├── schema/
+│   └── relai-extension.schema.json
+├── scripts/
+│   ├── update-readme.mjs
+│   └── validate.mjs
+├── examples/
+│   ├── hello-relai/
+│   └── hello-relai-cli/
+├── docs/
+│   ├── DEVELOPMENT.md
+│   └── PERMISSIONS.md
+├── CONTRIBUTING.md
+└── README.md
+```
+
+Use these directories for catalog infrastructure, examples, and documentation. Do not copy real extension packages into this repository.
 
 ## Extension types
 
-Rel.AI 1.x supports two extension types:
+Rel.AI 1.x supports two extension types.
 
-- **skill** — A `SKILL.md` file tells ChatGPT how to use a project, workflow, or Rel.AI capability.
-- **cli** — A skill also requires a local command. Rel.AI runs that command through its existing execution tools. A CLI extension may optionally declare SHA-256-pinned platform binaries for Rel.AI to auto-install when the command is missing.
+- **skill**: A `SKILL.md` file tells ChatGPT how to use a workflow or Rel.AI capability.
+- **cli**: A skill also uses a local command through Rel.AI execution tools.
 
-Rel.AI does not load extension packages as executable service code.
-A manifest can declare required access. These declarations do not grant access.
-Rel.AI authorization controls each local action.
+A CLI extension can declare verified binaries for managed installation. Rel.AI downloads only the declared artifact for the current platform.
 
-## Start developing
+Rel.AI does not load extension packages as service code. Rel.AI still controls authorization, workspace access, execution, browser access, and audit records.
+
+## Catalog
+
+`catalog.json` is the public index that Rel.AI reads.
+
+Each entry contains the extension identity, version, type, repository, manifest URL, publisher, permissions, and install metadata.
+
+During installation, Rel.AI:
+
+1. Downloads the selected manifest.
+2. Checks its identity, version, type, permissions, and install metadata against the catalog.
+3. Checks Rel.AI compatibility and local requirements.
+4. Downloads only files that the manifest declares.
+5. Checks each package file with SHA-256.
+6. Checks a managed CLI binary with SHA-256 when the manifest declares one.
+7. Installs the extension in Rel.AI local data.
+
+Rel.AI does not install extension files in a project folder.
+
+## Develop an extension
 
 Requirements:
 
 - Node.js 20 or later
 - npm
-- a GitHub repository for your extension
+- a separate GitHub repository for the extension
 
-Published manifests and package files must use HTTPS and must be accessible without authentication.
+Start with an example:
 
-Clone this repository and install the validator:
+- [Skill example](examples/hello-relai)
+- [CLI example](examples/hello-relai-cli)
+
+Read [Extension development](docs/DEVELOPMENT.md) for the full workflow.
+Read [Permissions](docs/PERMISSIONS.md) before you declare permissions.
+
+Validate a local extension manifest:
 
 ```bash
-git clone https://github.com/Kyne0328/rel-ai-extensions.git
-cd rel-ai-extensions
 npm ci
-npm run validate
-```
-
-Use [`examples/hello-relai`](examples/hello-relai) for a skill example.
-Use [`examples/hello-relai-cli`](examples/hello-relai-cli) for a CLI example.
-
-Read [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the complete development and test workflow.
-Read [`docs/PERMISSIONS.md`](docs/PERMISSIONS.md) before you declare permissions.
-
-## Validate an extension
-
-Run the validator against a local manifest:
-
-```bash
 npm run validate:manifest -- ../my-extension/relai-extension.json
 ```
 
-The validator checks the manifest, package paths, file sizes, SHA-256 hashes, semantic versions, CLI requirements, and other runtime rules.
-
-Run the complete repository validation with:
-
-```bash
-npm test
-```
-
-The complete validation also checks `catalog.json`.
-For catalog entries, it checks the published manifest and package files.
-
-## Package format
-
-Each extension contains a `relai-extension.json` manifest and at least one package file.
-
-The manifest records:
-
-- extension identity and version
-- compatible Rel.AI versions
-- publisher and repository
-- requested permissions
-- local requirements
-- entry points
-- optional verified CLI binary artifacts
-- package files and SHA-256 hashes
-
-See [`schema/relai-extension.schema.json`](schema/relai-extension.schema.json) for the machine-readable format.
-
-## Catalog
-
-[`catalog.json`](catalog.json) is the public extension index that Rel.AI uses.
-Each catalog entry points to an HTTPS manifest. CLI entries that can install a managed binary set `autoInstall: true`; Rel.AI cross-checks that flag against the manifest before installation.
-
-During installation, Rel.AI:
-
-1. downloads the selected manifest
-2. checks its identity, version, type, and permissions against the catalog
-3. checks Rel.AI compatibility and local requirements
-4. downloads only the files that the manifest lists
-5. verifies each package file with its SHA-256 hash
-6. when a CLI command is missing and the manifest declares a compatible binary artifact, downloads that HTTPS artifact and verifies its SHA-256 hash
-7. installs the extension and any managed CLI binary in Rel.AI local data
-
-Rel.AI does not install extension files in a project folder.
-
 ## Publish an extension
 
-1. Develop and validate the extension in its own repository.
-2. Test it with a temporary catalog on your fork or branch.
-3. Fork this repository.
-4. Add one entry to `catalog.json`.
-5. Update `updatedAt`.
+1. Develop the extension in its own repository.
+2. Publish the manifest and package files over HTTPS.
+3. Add or update one entry in `catalog.json`.
+4. Update `updatedAt`.
+5. Run `npm run readme:update`.
 6. Run `npm test`.
 7. Open a pull request.
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the review rules.
+Do not edit the generated extension table by hand.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for review rules.
 
 ## License
 
-This repository uses the Apache License 2.0.
+This catalog repository uses the Apache License 2.0.
 
-An extension can use a different license in its own repository.
-Adding an extension to the catalog does not change the extension license.
+An extension can use a different license in its own repository. A catalog entry does not change the extension license.
