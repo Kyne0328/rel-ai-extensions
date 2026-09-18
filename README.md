@@ -80,7 +80,7 @@ See [`schema/relai-extension.schema.json`](schema/relai-extension.schema.json) f
 ## Catalog
 
 [`catalog.json`](catalog.json) is the public extension index that Rel.AI uses.
-Each catalog entry points to an HTTPS manifest.
+Each catalog entry points to an HTTPS manifest. CLI entries that can install a managed binary set `autoInstall: true`; Rel.AI cross-checks that flag against the manifest before installation.
 
 During installation, Rel.AI:
 
