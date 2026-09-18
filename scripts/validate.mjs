@@ -409,22 +409,26 @@ async function validateCatalogEntry(entry, repoRoot) {
 
   if (localRoot) {
     verifyLocalFiles(localManifestPath, manifest);
-    return;
-  }
-
-  let totalBytes = 0;
-  for (const file of manifest.files) {
-    const fileUrl = new URL(file.path.replaceAll('\\', '/'), entry.manifestUrl).href;
-    const content = await fetchBytes(fileUrl, MAX_EXTENSION_FILE_BYTES, `${entry.id}/${file.path}`);
-    totalBytes += content.length;
-    if (totalBytes > MAX_EXTENSION_TOTAL_BYTES) throw new Error(`${entry.id}: package exceeds the 8 MiB total size limit.`);
-    const digest = crypto.createHash('sha256').update(content).digest('hex');
-    if (digest !== file.sha256) {
-      throw new Error(`${entry.id}/${file.path}: SHA-256 mismatch. Expected ${file.sha256}, got ${digest}.`);
+  } else {
+    let totalBytes = 0;
+    for (const file of manifest.files) {
+      const fileUrl = new URL(file.path.replaceAll('\\', '/'), entry.manifestUrl).href;
+      const content = await fetchBytes(fileUrl, MAX_EXTENSION_FILE_BYTES, `${entry.id}/${file.path}`);
+      totalBytes += content.length;
+      if (totalBytes > MAX_EXTENSION_TOTAL_BYTES) throw new Error(`${entry.id}: package exceeds the 8 MiB total size limit.`);
+      const digest = crypto.createHash('sha256').update(content).digest('hex');
+      if (digest !== file.sha256) {
+        throw new Error(`${entry.id}/${file.path}: SHA-256 mismatch. Expected ${file.sha256}, got ${digest}.`);
+      }
     }
   }
   for (const artifact of manifest.install?.artifacts || []) {
-    const content = await fetchBytes(artifact.url, MAX_INSTALL_ARTIFACT_BYTES, `${entry.id} binary ${artifact.platform}/${artifact.arch}`);
+    const content = await fetchBytes(
+      artifact.url,
+      MAX_INSTALL_ARTIFACT_BYTES,
+      `${entry.id} binary ${artifact.platform}/${artifact.arch}`,
+      { timeoutMs: 120_000 }
+    );
     const digest = crypto.createHash('sha256').update(content).digest('hex');
     if (digest !== artifact.sha256) {
       throw new Error(`${entry.id} binary ${artifact.platform}/${artifact.arch}: SHA-256 mismatch. Expected ${artifact.sha256}, got ${digest}.`);
