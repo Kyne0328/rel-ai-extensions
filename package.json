@@ -6,7 +6,9 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "validate": "node scripts/validate.mjs",
+    "readme:update": "node scripts/update-readme.mjs",
+    "readme:check": "node scripts/update-readme.mjs --check",
+    "validate": "node scripts/validate.mjs && npm run readme:check",
     "validate:manifest": "node scripts/validate.mjs manifest",
     "validate:catalog": "node scripts/validate.mjs catalog catalog.json",
     "test": "npm run validate"
