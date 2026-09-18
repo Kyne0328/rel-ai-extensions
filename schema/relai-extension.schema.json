@@ -4,53 +4,152 @@
   "title": "Rel.AI Extension Manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "id", "name", "version", "description", "kind", "compatibility", "publisher", "repository", "permissions", "requires", "entrypoints", "files"],
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "version",
+    "description",
+    "kind",
+    "compatibility",
+    "publisher",
+    "repository",
+    "permissions",
+    "requires",
+    "entrypoints",
+    "files"
+  ],
   "properties": {
-    "schemaVersion": { "const": 1 },
-    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{0,79}$" },
-    "name": { "type": "string", "minLength": 1, "maxLength": 100 },
-    "version": { "type": "string", "minLength": 1, "maxLength": 80 },
-    "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
-    "kind": { "enum": ["skill", "cli"] },
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9.-]{0,79}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "kind": {
+      "enum": [
+        "skill",
+        "cli"
+      ]
+    },
     "compatibility": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["relai"],
-      "properties": { "relai": { "type": "string", "minLength": 1, "maxLength": 100 } }
+      "required": [
+        "relai"
+      ],
+      "properties": {
+        "relai": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      }
     },
     "publisher": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
-        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
-        "url": { "type": "string", "format": "uri" }
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
       }
     },
-    "repository": { "type": "string", "format": "uri" },
-    "homepage": { "type": "string", "format": "uri" },
+    "repository": {
+      "type": "string",
+      "format": "uri"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri"
+    },
     "permissions": {
       "type": "array",
       "uniqueItems": true,
-      "items": { "enum": ["workspace.read", "workspace.write", "command.execute", "git", "network", "browser", "computer"] },
+      "items": {
+        "enum": [
+          "workspace.read",
+          "workspace.write",
+          "command.execute",
+          "git",
+          "network",
+          "browser",
+          "computer"
+        ]
+      },
       "maxItems": 7
     },
     "requires": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["commands", "platforms"],
+      "required": [
+        "commands",
+        "platforms"
+      ],
       "properties": {
-        "commands": { "type": "array", "maxItems": 20, "items": { "type": "string", "pattern": "^[A-Za-z0-9._+-]{1,100}$" } },
-        "platforms": { "type": "array", "uniqueItems": true, "maxItems": 3, "items": { "enum": ["win32", "darwin", "linux"] } }
+        "commands": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._+-]{1,100}$"
+          }
+        },
+        "platforms": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 3,
+          "items": {
+            "enum": [
+              "win32",
+              "darwin",
+              "linux"
+            ]
+          }
+        }
       }
     },
     "entrypoints": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["skill"],
+      "required": [
+        "skill"
+      ],
       "properties": {
-        "skill": { "type": "string", "minLength": 1, "maxLength": 240 },
-        "command": { "type": "string", "pattern": "^[A-Za-z0-9._+-]{1,100}$" }
+        "skill": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "command": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._+-]{1,100}$"
+        }
       }
     },
     "files": {
@@ -60,10 +159,71 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "sha256"],
+        "required": [
+          "path",
+          "sha256"
+        ],
         "properties": {
-          "path": { "type": "string", "minLength": 1, "maxLength": 240 },
-          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "install": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "artifacts"
+      ],
+      "properties": {
+        "type": {
+          "const": "binary"
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "platform",
+              "arch",
+              "url",
+              "sha256"
+            ],
+            "properties": {
+              "platform": {
+                "enum": [
+                  "win32",
+                  "darwin",
+                  "linux"
+                ]
+              },
+              "arch": {
+                "enum": [
+                  "x64",
+                  "arm64"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
         }
       }
     }
