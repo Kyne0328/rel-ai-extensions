@@ -339,10 +339,11 @@ function validateLocalManifest(manifestPath) {
   return manifest;
 }
 
-async function fetchBytes(url, maxBytes, label) {
+async function fetchBytes(url, maxBytes, label, options = {}) {
   if (!isHttpsUrl(url)) throw new Error(`${label} URL must use HTTPS.`);
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timeoutMs = Math.min(120_000, Math.max(1_000, Number(options.timeoutMs) || REQUEST_TIMEOUT_MS));
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(url, {
       signal: controller.signal,
@@ -498,5 +499,3 @@ export {
   validateCatalog,
   validateCatalogFile,
   validateLocalManifest,
-  validateManifest
-};
