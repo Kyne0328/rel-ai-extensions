@@ -262,7 +262,7 @@ function validateCatalog(catalog, label = 'extension catalog') {
       }
       checkKeys(entry, [
         'id', 'name', 'version', 'description', 'kind', 'manifestUrl',
-        'repository', 'publisher', 'permissions', 'featured'
+        'repository', 'publisher', 'permissions', 'autoInstall', 'featured'
       ], `extensions[${index}]`, errors);
       if (!validText(entry.id, 1, 80) || !ID_PATTERN.test(entry.id)) {
         errors.push(`extensions[${index}].id is invalid.`);
@@ -289,6 +289,9 @@ function validateCatalog(catalog, label = 'extension catalog') {
           if (seenPermissions.has(permission)) errors.push(`extensions[${index}] has duplicate permission ${String(permission)}.`);
           seenPermissions.add(permission);
         }
+      }
+      if (entry.autoInstall !== undefined && typeof entry.autoInstall !== 'boolean') {
+        errors.push(`extensions[${index}].autoInstall must be true or false.`);
       }
       if (entry.featured !== undefined && typeof entry.featured !== 'boolean') {
         errors.push(`extensions[${index}].featured must be true or false.`);
@@ -405,6 +408,9 @@ async function validateCatalogEntry(entry, repoRoot) {
   if (manifest.kind !== entry.kind) throw new Error(`${entry.id}: catalog kind does not match the manifest.`);
   if (!sameStringSet(manifest.permissions, entry.permissions)) {
     throw new Error(`${entry.id}: catalog permissions do not match the manifest.`);
+  }
+  if (Boolean(manifest.install) !== Boolean(entry.autoInstall)) {
+    throw new Error(`${entry.id}: catalog autoInstall does not match the manifest.`);
   }
 
   if (localRoot) {
