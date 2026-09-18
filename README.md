@@ -72,6 +72,7 @@ The manifest records:
 - requested permissions
 - local requirements
 - entry points
+- optional verified CLI binary artifacts
 - package files and SHA-256 hashes
 
 See [`schema/relai-extension.schema.json`](schema/relai-extension.schema.json) for the machine-readable format.
