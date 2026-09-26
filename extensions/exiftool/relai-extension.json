@@ -34,22 +34,5 @@
       "path": "SKILL.md",
       "sha256": "7ccb92b97c273349ac8231c00d2079cf7f513fad53c8da3eea6a329dde8528a6"
     }
-  ],
-  "install": {
-    "type": "bundle",
-    "artifacts": [
-      {
-        "platform": "win32",
-        "arch": "x64",
-        "url": "https://downloads.sourceforge.net/project/exiftool/exiftool-13.58_64.zip",
-        "sha256": "fd3b407a01e6ffc6160f2d5fde5ff0c003f6c4c2ba85eee1ce8928ccb51fa3e6",
-        "commands": [
-          {
-            "command": "exiftool",
-            "path": "exiftool-13.58_64/exiftool(-k).exe"
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }
