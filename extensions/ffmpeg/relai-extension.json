@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.ffmpeg",
+  "name": "FFmpeg",
+  "version": "1.0.0",
+  "description": "FFmpeg and ffprobe integration for deterministic local video and audio inspection, conversion, trimming, compression, extraction, and transcoding.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "workspace.read",
+    "workspace.write",
+    "command.execute"
+  ],
+  "homepage": "https://ffmpeg.org/",
+  "requires": {
+    "commands": [
+      "ffmpeg",
+      "ffprobe"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "ffmpeg"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "a88aa7a27467543d24e41b012749e4ce78a44c18cd135464a540bfc1a617da4b"
+    }
+  ],
+  "install": {
+    "type": "bundle",
+    "artifacts": [
+      {
+        "platform": "win32",
+        "arch": "x64",
+        "url": "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-09-25-15-37/ffmpeg-n9.0.2-8-gb135b25c19-win64-lgpl-shared-9.0.zip",
+        "sha256": "5e23e2f924cfdb92a0b4326e6271509254acd3dec75463b1dbbe732622becf64",
+        "commands": [
+          {
+            "command": "ffmpeg",
+            "path": "ffmpeg-n9.0.2-8-gb135b25c19-win64-lgpl-shared-9.0/bin/ffmpeg.exe"
+          },
+          {
+            "command": "ffprobe",
+            "path": "ffmpeg-n9.0.2-8-gb135b25c19-win64-lgpl-shared-9.0/bin/ffprobe.exe"
+          }
+        ]
+      },
+      {
+        "platform": "win32",
+        "arch": "arm64",
+        "url": "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-09-25-15-37/ffmpeg-n9.0.2-8-gb135b25c19-winarm64-lgpl-shared-9.0.zip",
+        "sha256": "b8646edcca5672157f71421b2f8795dbeb3a38a53b5bf8ce58e01697992c21a7",
+        "commands": [
+          {
+            "command": "ffmpeg",
+            "path": "ffmpeg-n9.0.2-8-gb135b25c19-winarm64-lgpl-shared-9.0/bin/ffmpeg.exe"
+          },
+          {
+            "command": "ffprobe",
+            "path": "ffmpeg-n9.0.2-8-gb135b25c19-winarm64-lgpl-shared-9.0/bin/ffprobe.exe"
+          }
+        ]
+      }
+    ]
+  }
+}
