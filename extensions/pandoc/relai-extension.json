@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "kyne.pandoc",
   "name": "Pandoc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pandoc integration for reliable local conversion among Markdown, HTML, DOCX, EPUB, LaTeX, reStructuredText, and other supported document formats.",
   "kind": "cli",
   "compatibility": {
@@ -47,6 +47,30 @@
           {
             "command": "pandoc",
             "path": "pandoc-3.11/pandoc.exe"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "x64",
+        "url": "https://github.com/jgm/pandoc/releases/download/3.11/pandoc-3.11-x86_64-macOS.zip",
+        "sha256": "3b1c1b57f160112c821d02f23d946ede8b7f57a6ccf4632a25a512d334a9291f",
+        "commands": [
+          {
+            "command": "pandoc",
+            "path": "pandoc-3.11-x86_64/bin/pandoc"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "arm64",
+        "url": "https://github.com/jgm/pandoc/releases/download/3.11/pandoc-3.11-arm64-macOS.zip",
+        "sha256": "15806bedf9517bfead72e88fe6a6696635c3691efbb6e152173440e9c5bb50b4",
+        "commands": [
+          {
+            "command": "pandoc",
+            "path": "pandoc-3.11-arm64/bin/pandoc"
           }
         ]
       }

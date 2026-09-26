@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "kyne.pdf-tools",
   "name": "PDF Tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "qpdf-based PDF structural tooling for checking, splitting, merging, selecting, rotating, linearizing, repairing, and inspecting PDF files.",
   "kind": "cli",
   "compatibility": {
@@ -47,6 +47,18 @@
           {
             "command": "qpdf",
             "path": "qpdf-12.4.1-msvc64/bin/qpdf.exe"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "x64",
+        "url": "https://github.com/qpdf/qpdf/releases/download/v12.4.1/qpdf-12.4.1-bin-linux-x86_64.zip",
+        "sha256": "db9122e88ec00c76ac6a14e09ffb92406db1773d47b968911ff6e69f28c09bf9",
+        "commands": [
+          {
+            "command": "qpdf",
+            "path": "bin/qpdf"
           }
         ]
       }

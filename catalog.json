@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-26T06:26:14.000Z",
+  "updatedAt": "2026-09-26T06:48:30.000Z",
   "extensions": [
     {
       "id": "officecli",
@@ -71,7 +71,7 @@
     {
       "id": "kyne.pdf-tools",
       "name": "PDF Tools",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "qpdf-based PDF structural tooling for checking, splitting, merging, selecting, rotating, linearizing, repairing, and inspecting PDF files.",
       "kind": "cli",
       "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/pdf-tools/relai-extension.json",
@@ -103,7 +103,7 @@
     {
       "id": "kyne.pandoc",
       "name": "Pandoc",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Pandoc integration for reliable local conversion among Markdown, HTML, DOCX, EPUB, LaTeX, reStructuredText, and other supported document formats.",
       "kind": "cli",
       "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/pandoc/relai-extension.json",
