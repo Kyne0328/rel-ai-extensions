@@ -10,6 +10,7 @@ const MAX_MANIFEST_BYTES = 256 * 1024;
 const MAX_EXTENSION_FILE_BYTES = 1024 * 1024;
 const MAX_EXTENSION_TOTAL_BYTES = 8 * 1024 * 1024;
 const MAX_INSTALL_ARTIFACT_BYTES = 64 * 1024 * 1024;
+const MAX_TOOL_BUNDLE_ARCHIVE_BYTES = 512 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 8000;
 const ID_PATTERN = /^[a-z0-9][a-z0-9.-]{0,79}$/;
 const COMMAND_PATTERN = /^[A-Za-z0-9._+-]{1,100}$/;
@@ -27,7 +28,7 @@ const PLATFORMS = Object.freeze(['win32', 'darwin', 'linux']);
 const ARCHITECTURES = Object.freeze(['x64', 'arm64']);
 const RESERVED_MANAGED_COMMANDS = new Set([
   'bash', 'cmd', 'git', 'node', 'npm', 'npx', 'powershell', 'pwsh', 'python', 'python3',
-  'rel-ai-mcp', 'rel-ai-mcp-http', 'sh', 'zsh'
+  'rel-ai-mcp', 'rel-ai-mcp-http', 'relai-extension', 'relai-mcp-config', 'sh', 'zsh'
 ]);
 const CANONICAL_RAW_PREFIX = 'https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/';
 
@@ -71,7 +72,11 @@ function isHttpsUrl(value) {
 function isSafeRelativePath(value) {
   const text = String(value || '').replaceAll('\\', '/');
   if (!text || text.startsWith('/') || /^[A-Za-z]:\//.test(text)) return false;
-  return text.split('/').every(segment => segment && segment !== '.' && segment !== '..');
+  return text.split('/').every(segment => segment && segment !== '.' && segment !== '..' && !segment.includes(':'));
+}
+
+function normalizeCommandName(value) {
+  return path.basename(String(value || '')).toLowerCase().replace(/\.(?:exe|cmd|bat|com)$/i, '');
 }
 
 function sameStringSet(left, right) {
@@ -213,19 +218,30 @@ function validateManifest(manifest, label = 'extension manifest') {
       errors.push('install must be an object.');
     } else {
       checkKeys(manifest.install, ['type', 'artifacts'], 'install', errors);
-      if (manifest.install.type !== 'binary') errors.push("install.type must be 'binary'.");
-      const command = String(manifest.entrypoints?.command || '').toLowerCase().replace(/\.(?:exe|cmd|bat|com)$/i, '');
-      if (RESERVED_MANAGED_COMMANDS.has(command)) errors.push('entrypoints.command is reserved and cannot be auto-installed.');
+      if (!['binary', 'bundle'].includes(manifest.install.type)) {
+        errors.push("install.type must be 'binary' or 'bundle'.");
+      }
+      const entrypointCommand = normalizeCommandName(manifest.entrypoints?.command);
+      if (manifest.install.type === 'binary' && RESERVED_MANAGED_COMMANDS.has(entrypointCommand)) {
+        errors.push('entrypoints.command is reserved and cannot be auto-installed.');
+      }
       if (!Array.isArray(manifest.install.artifacts) || manifest.install.artifacts.length < 1 || manifest.install.artifacts.length > 12) {
         errors.push('install.artifacts must contain 1 to 12 items.');
       } else {
         const targets = new Set();
+        let bundleCommandSet = null;
         for (const [index, artifact] of manifest.install.artifacts.entries()) {
           if (!isRecord(artifact)) {
             errors.push(`install.artifacts[${index}] must be an object.`);
             continue;
           }
-          checkKeys(artifact, ['platform', 'arch', 'url', 'sha256'], `install.artifacts[${index}]`, errors);
+          const bundle = manifest.install.type === 'bundle';
+          checkKeys(
+            artifact,
+            bundle ? ['platform', 'arch', 'url', 'sha256', 'commands'] : ['platform', 'arch', 'url', 'sha256'],
+            `install.artifacts[${index}]`,
+            errors
+          );
           if (!PLATFORMS.includes(artifact.platform)) errors.push(`install.artifacts[${index}].platform is invalid.`);
           if (!ARCHITECTURES.includes(artifact.arch)) errors.push(`install.artifacts[${index}].arch is invalid.`);
           if (!isHttpsUrl(artifact.url)) errors.push(`install.artifacts[${index}].url must use HTTPS.`);
@@ -235,6 +251,52 @@ function validateManifest(manifest, label = 'extension manifest') {
           const target = `${artifact.platform}/${artifact.arch}`;
           if (targets.has(target)) errors.push(`duplicate install artifact target: ${target}.`);
           targets.add(target);
+
+          if (!bundle) continue;
+          if (!Array.isArray(artifact.commands) || artifact.commands.length < 1 || artifact.commands.length > 20) {
+            errors.push(`install.artifacts[${index}].commands must contain 1 to 20 items.`);
+            continue;
+          }
+          const commands = new Set();
+          for (const [commandIndex, entry] of artifact.commands.entries()) {
+            const label = `install.artifacts[${index}].commands[${commandIndex}]`;
+            if (!isRecord(entry)) {
+              errors.push(`${label} must be an object.`);
+              continue;
+            }
+            checkKeys(entry, ['command', 'path'], label, errors);
+            if (typeof entry.command !== 'string' || !COMMAND_PATTERN.test(entry.command)) {
+              errors.push(`${label}.command is invalid.`);
+              continue;
+            }
+            if (!validText(entry.path, 1, 240) || !isSafeRelativePath(entry.path)) {
+              errors.push(`${label}.path must be a safe relative path.`);
+              continue;
+            }
+            const normalizedCommand = normalizeCommandName(entry.command);
+            if (normalizeCommandName(path.basename(entry.path)) !== normalizedCommand) {
+              errors.push(`${label}.path must have the same executable name as '${entry.command}'.`);
+            }
+            if (RESERVED_MANAGED_COMMANDS.has(normalizedCommand)) {
+              errors.push(`${label}.command is reserved.`);
+            }
+            if (commands.has(normalizedCommand)) {
+              errors.push(`duplicate managed command in install.artifacts[${index}]: ${entry.command}.`);
+            }
+            commands.add(normalizedCommand);
+            if (!Array.isArray(manifest.requires?.commands) || !manifest.requires.commands.includes(entry.command)) {
+              errors.push(`bundle command '${entry.command}' must be listed in requires.commands.`);
+            }
+          }
+          if (manifest.entrypoints?.command &&
+              !artifact.commands.some(entry => entry?.command === manifest.entrypoints.command)) {
+            errors.push('entrypoints.command must be provided by every tool bundle artifact.');
+          }
+          const currentSet = [...commands].sort().join('\n');
+          if (bundleCommandSet == null) bundleCommandSet = currentSet;
+          else if (bundleCommandSet !== currentSet) {
+            errors.push('tool bundle artifacts must expose the same command names on every platform/architecture.');
+          }
         }
       }
     }
@@ -429,15 +491,16 @@ async function validateCatalogEntry(entry, repoRoot) {
     }
   }
   for (const artifact of manifest.install?.artifacts || []) {
+    const bundle = manifest.install?.type === 'bundle';
     const content = await fetchBytes(
       artifact.url,
-      MAX_INSTALL_ARTIFACT_BYTES,
-      `${entry.id} binary ${artifact.platform}/${artifact.arch}`,
-      { timeoutMs: 120_000 }
+      bundle ? MAX_TOOL_BUNDLE_ARCHIVE_BYTES : MAX_INSTALL_ARTIFACT_BYTES,
+      `${entry.id} ${bundle ? 'tool bundle' : 'binary'} ${artifact.platform}/${artifact.arch}`,
+      { timeoutMs: bundle ? 15 * 60_000 : 120_000 }
     );
     const digest = crypto.createHash('sha256').update(content).digest('hex');
     if (digest !== artifact.sha256) {
-      throw new Error(`${entry.id} binary ${artifact.platform}/${artifact.arch}: SHA-256 mismatch. Expected ${artifact.sha256}, got ${digest}.`);
+      throw new Error(`${entry.id} ${bundle ? 'tool bundle' : 'binary'} ${artifact.platform}/${artifact.arch}: SHA-256 mismatch. Expected ${artifact.sha256}, got ${digest}.`);
     }
   }
 }
