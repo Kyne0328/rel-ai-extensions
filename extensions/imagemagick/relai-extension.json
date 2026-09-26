@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.imagemagick",
+  "name": "ImageMagick",
+  "version": "1.0.0",
+  "description": "ImageMagick integration for deterministic local image inspection, resize, crop, conversion, optimization, compositing, and batch transformations.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "workspace.read",
+    "workspace.write",
+    "command.execute"
+  ],
+  "homepage": "https://imagemagick.org/",
+  "requires": {
+    "commands": [
+      "magick"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "magick"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "96224d1748ad85f5ca1a2ad610d35ff72228741cb93486e461bde4c6768eb8b7"
+    }
+  ]
+}
