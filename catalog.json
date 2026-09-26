@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-26T03:38:26.000Z",
+  "updatedAt": "2026-09-26T06:26:14.000Z",
   "extensions": [
     {
       "id": "officecli",
@@ -18,6 +18,102 @@
         "browser"
       ],
       "featured": true,
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.duckdb",
+      "name": "DuckDB",
+      "version": "1.0.0",
+      "description": "Managed DuckDB CLI integration for fast local SQL analysis and transformation of CSV, Parquet, JSON, and other tabular data.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/duckdb/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.ffmpeg",
+      "name": "FFmpeg",
+      "version": "1.0.0",
+      "description": "FFmpeg and ffprobe integration for deterministic local video and audio inspection, conversion, trimming, compression, extraction, and transcoding.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/ffmpeg/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.imagemagick",
+      "name": "ImageMagick",
+      "version": "1.0.0",
+      "description": "ImageMagick integration for deterministic local image inspection, resize, crop, conversion, optimization, compositing, and batch transformations.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/imagemagick/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": false
+    },
+    {
+      "id": "kyne.pdf-tools",
+      "name": "PDF Tools",
+      "version": "1.0.0",
+      "description": "qpdf-based PDF structural tooling for checking, splitting, merging, selecting, rotating, linearizing, repairing, and inspecting PDF files.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/pdf-tools/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.exiftool",
+      "name": "ExifTool",
+      "version": "1.0.0",
+      "description": "ExifTool integration for reading, comparing, removing, copying, renaming from, and updating EXIF, GPS, XMP, IPTC, QuickTime, and other file metadata.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/exiftool/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": false
+    },
+    {
+      "id": "kyne.pandoc",
+      "name": "Pandoc",
+      "version": "1.0.0",
+      "description": "Pandoc integration for reliable local conversion among Markdown, HTML, DOCX, EPUB, LaTeX, reStructuredText, and other supported document formats.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/pandoc/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
       "autoInstall": true
     }
   ]

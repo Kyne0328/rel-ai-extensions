@@ -11,7 +11,13 @@ The catalog is for discovery and installation metadata. Keep each real extension
 <!-- catalog:extensions:start -->
 | Extension | Type | Version | Managed install | Description |
 | --- | --- | --- | --- | --- |
-| [OfficeCLI](https://github.com/Kyne0328/rel-ai-extension-officecli) | `cli` | `1.0.0` | Yes | Create, inspect, edit, validate, and visually review Word, Excel, and PowerPoint files. |
+| [DuckDB](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | Managed DuckDB CLI integration for fast local SQL analysis and transformation of CSV, Parquet, JSON, and other tabular data. |
+| [ExifTool](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | No | ExifTool integration for reading, comparing, removing, copying, renaming from, and updating EXIF, GPS, XMP, IPTC, QuickTime, and other file metadata. |
+| [FFmpeg](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | FFmpeg and ffprobe integration for deterministic local video and audio inspection, conversion, trimming, compression, extraction, and transcoding. |
+| [ImageMagick](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | No | ImageMagick integration for deterministic local image inspection, resize, crop, conversion, optimization, compositing, and batch transformations. |
+| [OfficeCLI](https://github.com/Kyne0328/rel-ai-extension-officecli) | `cli` | `1.0.1` | Yes | Rel.AI integration for OfficeCLI to create, inspect, edit, validate, render, convert, and visually review DOCX/Word documents, XLSX/Excel spreadsheets or workbooks, and PPTX/PowerPoint presentations, slides, or decks. |
+| [Pandoc](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | Pandoc integration for reliable local conversion among Markdown, HTML, DOCX, EPUB, LaTeX, reStructuredText, and other supported document formats. |
+| [PDF Tools](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | qpdf-based PDF structural tooling for checking, splitting, merging, selecting, rotating, linearizing, repairing, and inspecting PDF files. |
 <!-- catalog:extensions:end -->
 
 Review an extension repository before installation. A catalog entry does not grant extra access.

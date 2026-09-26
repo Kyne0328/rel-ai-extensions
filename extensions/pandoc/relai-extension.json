@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.pandoc",
+  "name": "Pandoc",
+  "version": "1.0.0",
+  "description": "Pandoc integration for reliable local conversion among Markdown, HTML, DOCX, EPUB, LaTeX, reStructuredText, and other supported document formats.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "workspace.read",
+    "workspace.write",
+    "command.execute"
+  ],
+  "homepage": "https://pandoc.org/",
+  "requires": {
+    "commands": [
+      "pandoc"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "pandoc"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "c54813dbf8ed04db283694dcafcac1e161f11cbc6467342fbcb68eaa6a44838f"
+    }
+  ],
+  "install": {
+    "type": "bundle",
+    "artifacts": [
+      {
+        "platform": "win32",
+        "arch": "x64",
+        "url": "https://github.com/jgm/pandoc/releases/download/3.11/pandoc-3.11-windows-x86_64.zip",
+        "sha256": "2ab72baf2399450e148ddf7a2a8689806c42e1bba71862b57e220fd9b8456d3d",
+        "commands": [
+          {
+            "command": "pandoc",
+            "path": "pandoc-3.11/pandoc.exe"
+          }
+        ]
+      }
+    ]
+  }
+}
