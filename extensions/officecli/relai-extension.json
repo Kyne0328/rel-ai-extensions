@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "id": "officecli",
+  "name": "OfficeCLI",
+  "version": "1.0.1",
+  "description": "Rel.AI integration for OfficeCLI to create, inspect, edit, validate, render, convert, and visually review DOCX/Word documents, XLSX/Excel spreadsheets or workbooks, and PPTX/PowerPoint presentations, slides, or decks.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.2 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "homepage": "https://github.com/iOfficeAI/OfficeCLI",
+  "permissions": [
+    "workspace.read",
+    "workspace.write",
+    "command.execute",
+    "browser"
+  ],
+  "requires": {
+    "commands": [
+      "officecli"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "officecli"
+  },
+  "install": {
+    "type": "binary",
+    "artifacts": [
+      {
+        "platform": "win32",
+        "arch": "x64",
+        "url": "https://github.com/iOfficeAI/OfficeCLI/releases/download/v1.0.152/officecli-win-x64.exe",
+        "sha256": "047705402974c3690a4437e55f620d03afac4beba4fdd28fdb59af610a3afff2"
+      },
+      {
+        "platform": "win32",
+        "arch": "arm64",
+        "url": "https://github.com/iOfficeAI/OfficeCLI/releases/download/v1.0.152/officecli-win-arm64.exe",
+        "sha256": "82408eca64c0f7a79679754162320aae510b26f4cf93933c9304dbd07a379c83"
+      },
+      {
+        "platform": "darwin",
+        "arch": "arm64",
+        "url": "https://github.com/iOfficeAI/OfficeCLI/releases/download/v1.0.152/officecli-mac-arm64",
+        "sha256": "e2ed6eba5cd46d6800139f2835097828b8ccd7c8c9b679463b50e45ba2f1dbf5"
+      },
+      {
+        "platform": "darwin",
+        "arch": "x64",
+        "url": "https://github.com/iOfficeAI/OfficeCLI/releases/download/v1.0.152/officecli-mac-x64",
+        "sha256": "5071abef56c1d4a4d60e28ed12bc66183d8dc6a9783529c3f1a9cf6bdfe6c2dd"
+      },
+      {
+        "platform": "linux",
+        "arch": "x64",
+        "url": "https://github.com/iOfficeAI/OfficeCLI/releases/download/v1.0.152/officecli-linux-x64",
+        "sha256": "e54d3c1d248372365f0634aac56d6f1918bd04d6e71afc792ad50e075f56cfe9"
+      },
+      {
+        "platform": "linux",
+        "arch": "arm64",
+        "url": "https://github.com/iOfficeAI/OfficeCLI/releases/download/v1.0.152/officecli-linux-arm64",
+        "sha256": "bc06deaa0ad931f5208717a40b94018dc44cdff0d8eefa842c4f4daf89fb35a8"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "3a85c8b3811091d80b33e257606e004a7d5deaec0581856f7c2e5148207a16c7"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "9973dab939db1fc58f9d607bfc4051bff769945022146b505d787a6e3bde30fd"
+    }
+  ]
+}

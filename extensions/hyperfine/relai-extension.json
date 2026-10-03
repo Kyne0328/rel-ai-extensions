@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.hyperfine",
+  "name": "Hyperfine",
+  "version": "1.0.1",
+  "description": "Command-line benchmarking with statistical timing summaries for controlled performance comparisons.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "homepage": "https://github.com/sharkdp/hyperfine",
+  "permissions": [
+    "workspace.read",
+    "command.execute"
+  ],
+  "requires": {
+    "commands": [
+      "hyperfine"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "hyperfine"
+  },
+  "install": {
+    "type": "bundle",
+    "artifacts": [
+      {
+        "platform": "win32",
+        "arch": "x64",
+        "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-pc-windows-msvc.zip",
+        "sha256": "2508c549b049b1d4342d08edc1cb42bfac169082b6e3069431b5bab9822dbb32",
+        "commands": [
+          {
+            "command": "hyperfine",
+            "path": "hyperfine-v1.20.0-x86_64-pc-windows-msvc/hyperfine.exe"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "x64",
+        "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-apple-darwin.tar.gz",
+        "sha256": "f58d0b90993fadfa122a351428c469ce24afef3865f027f0e6e86f0830d088f1",
+        "commands": [
+          {
+            "command": "hyperfine",
+            "path": "hyperfine-v1.20.0-x86_64-apple-darwin/hyperfine"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "arm64",
+        "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-aarch64-apple-darwin.tar.gz",
+        "sha256": "8ee7067016620447c9d2d6234ec9a4680f958b7ad983549b56334668f63075b5",
+        "commands": [
+          {
+            "command": "hyperfine",
+            "path": "hyperfine-v1.20.0-aarch64-apple-darwin/hyperfine"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "x64",
+        "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-unknown-linux-gnu.tar.gz",
+        "sha256": "63ad53934062118f5b0be11785e0bb1603d4b91667d1921f2fd8df9a8712040a",
+        "commands": [
+          {
+            "command": "hyperfine",
+            "path": "hyperfine-v1.20.0-x86_64-unknown-linux-gnu/hyperfine"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "arm64",
+        "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-aarch64-unknown-linux-gnu.tar.gz",
+        "sha256": "90875cb1db7a1d797c311174d061728361e58fc70e3b62262a00635ac3b1997c",
+        "commands": [
+          {
+            "command": "hyperfine",
+            "path": "hyperfine-v1.20.0-aarch64-unknown-linux-gnu/hyperfine"
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "7cfdfcfe678ece827a1b7e6e7fdc866ba5201d4a1529824c00e2f3f3144095d4"
+    }
+  ]
+}

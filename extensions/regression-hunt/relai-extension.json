@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.regression-hunt",
+  "name": "Regression Hunt",
+  "version": "1.0.0",
+  "description": "Deterministic Git regression-hunting workflow for locating the first bad revision with bisect while protecting the current worktree.",
+  "kind": "skill",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "workspace.read",
+    "command.execute",
+    "git"
+  ],
+  "requires": {
+    "commands": [],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "30cb36e0523daec017de24c694630d7502b4cea8e5d6fd45aa40fab44f9a7778"
+    }
+  ]
+}

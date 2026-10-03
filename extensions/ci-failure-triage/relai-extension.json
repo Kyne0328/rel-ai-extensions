@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.ci-failure-triage",
+  "name": "CI Failure Triage",
+  "version": "1.0.0",
+  "description": "Focused CI debugging workflow that starts from the newest concrete failure and validates the smallest behavior-preserving fix.",
+  "kind": "skill",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "workspace.read",
+    "workspace.write",
+    "command.execute"
+  ],
+  "requires": {
+    "commands": [],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "25b9a498076e3f3f79b65848c09de9f7de25954fc6cec67d561c9260a116de9b"
+    }
+  ]
+}

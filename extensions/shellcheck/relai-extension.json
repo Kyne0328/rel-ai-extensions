@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.shellcheck",
+  "name": "ShellCheck",
+  "version": "1.0.1",
+  "description": "Shell script static analysis for correctness, portability, quoting, expansion, and common command-line pitfalls.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "homepage": "https://www.shellcheck.net/",
+  "permissions": [
+    "workspace.read",
+    "command.execute"
+  ],
+  "requires": {
+    "commands": [
+      "shellcheck"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "shellcheck"
+  },
+  "install": {
+    "type": "bundle",
+    "artifacts": [
+      {
+        "platform": "win32",
+        "arch": "x64",
+        "url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.zip",
+        "sha256": "8a4e35ab0b331c85d73567b12f2a444df187f483e5079ceffa6bda1faa2e740e",
+        "commands": [
+          {
+            "command": "shellcheck",
+            "path": "shellcheck.exe"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "x64",
+        "url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.darwin.x86_64.tar.gz",
+        "sha256": "c2c15e08df0e8fbc374c335b230a7ee958c313fa5714817a59aa59f1aa594f51",
+        "commands": [
+          {
+            "command": "shellcheck",
+            "path": "shellcheck-v0.11.0/shellcheck"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "arm64",
+        "url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.darwin.aarch64.tar.gz",
+        "sha256": "339b930feb1ea764467013cc1f72d09cd6b869ebf1013296ba9055ab2ffbd26f",
+        "commands": [
+          {
+            "command": "shellcheck",
+            "path": "shellcheck-v0.11.0/shellcheck"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "x64",
+        "url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.gz",
+        "sha256": "b7af85e41cc99489dcc21d66c6d5f3685138f06d34651e6d34b42ec6d54fe6f6",
+        "commands": [
+          {
+            "command": "shellcheck",
+            "path": "shellcheck-v0.11.0/shellcheck"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "arm64",
+        "url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.aarch64.tar.gz",
+        "sha256": "68a8133197a50beb8803f8d42f9908d1af1c5540d4bb05fdfca8c1fa47decefc",
+        "commands": [
+          {
+            "command": "shellcheck",
+            "path": "shellcheck-v0.11.0/shellcheck"
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "b0d5f16d5db3af9e59919195aee2332947bcc11cfb8afc54d8c8d38f34d4bb11"
+    }
+  ]
+}

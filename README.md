@@ -11,13 +11,21 @@ The catalog is for discovery and installation metadata. Keep each real extension
 <!-- catalog:extensions:start -->
 | Extension | Type | Version | Managed install | Description |
 | --- | --- | --- | --- | --- |
+| [Actionlint](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Static validation for GitHub Actions workflow files with focused diagnostics for workflow syntax and expression errors. |
+| [AST-grep](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | Structural code search and rewrite with ast-grep for syntax-aware matching that is more precise than plain text search. |
+| [CI Failure Triage](https://github.com/Kyne0328/rel-ai-extensions) | `skill` | `1.0.0` | No | Focused CI debugging workflow that starts from the newest concrete failure and validates the smallest behavior-preserving fix. |
+| [Difftastic](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Syntax-aware structural diffing that makes code changes easier to review than line-oriented text diffs. |
 | [DuckDB](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | Managed DuckDB CLI integration for fast local SQL analysis and transformation of CSV, Parquet, JSON, and other tabular data. |
 | [ExifTool](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | No | ExifTool integration for reading, comparing, removing, copying, renaming from, and updating EXIF, GPS, XMP, IPTC, QuickTime, and other file metadata. |
 | [FFmpeg](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | FFmpeg and ffprobe integration for deterministic local video and audio inspection, conversion, trimming, compression, extraction, and transcoding. |
+| [Hyperfine](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Command-line benchmarking with statistical timing summaries for controlled performance comparisons. |
 | [ImageMagick](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | No | ImageMagick integration for deterministic local image inspection, resize, crop, conversion, optimization, compositing, and batch transformations. |
-| [OfficeCLI](https://github.com/Kyne0328/rel-ai-extension-officecli) | `cli` | `1.0.1` | Yes | Rel.AI integration for OfficeCLI to create, inspect, edit, validate, render, convert, and visually review DOCX/Word documents, XLSX/Excel spreadsheets or workbooks, and PPTX/PowerPoint presentations, slides, or decks. |
+| [OfficeCLI](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Rel.AI integration for OfficeCLI to create, inspect, edit, validate, render, convert, and visually review DOCX/Word documents, XLSX/Excel spreadsheets or workbooks, and PPTX/PowerPoint presentations, slides, or decks. |
 | [Pandoc](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Pandoc integration for reliable local conversion among Markdown, HTML, DOCX, EPUB, LaTeX, reStructuredText, and other supported document formats. |
 | [PDF Tools](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | qpdf-based PDF structural tooling for checking, splitting, merging, selecting, rotating, linearizing, repairing, and inspecting PDF files. |
+| [Regression Hunt](https://github.com/Kyne0328/rel-ai-extensions) | `skill` | `1.0.0` | No | Deterministic Git regression-hunting workflow for locating the first bad revision with bisect while protecting the current worktree. |
+| [ShellCheck](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Shell script static analysis for correctness, portability, quoting, expansion, and common command-line pitfalls. |
+| [Trivy](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | No | Trivy integration for explicit local vulnerability, secret, filesystem, container, and configuration security scanning. |
 <!-- catalog:extensions:end -->
 
 Review an extension repository before installation. A catalog entry does not grant extra access.

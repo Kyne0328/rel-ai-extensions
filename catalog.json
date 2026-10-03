@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-26T06:48:30.000Z",
+  "updatedAt": "2026-10-03T04:59:53.865Z",
   "extensions": [
     {
       "id": "officecli",
@@ -8,8 +8,8 @@
       "version": "1.0.1",
       "description": "Rel.AI integration for OfficeCLI to create, inspect, edit, validate, render, convert, and visually review DOCX/Word documents, XLSX/Excel spreadsheets or workbooks, and PPTX/PowerPoint presentations, slides, or decks.",
       "kind": "cli",
-      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extension-officecli/main/relai-extension.json",
-      "repository": "https://github.com/Kyne0328/rel-ai-extension-officecli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/officecli/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
       "publisher": "Kyne",
       "permissions": [
         "workspace.read",
@@ -17,8 +17,8 @@
         "command.execute",
         "browser"
       ],
-      "featured": true,
-      "autoInstall": true
+      "autoInstall": true,
+      "featured": true
     },
     {
       "id": "kyne.duckdb",
@@ -115,6 +115,130 @@
         "command.execute"
       ],
       "autoInstall": true
+    },
+    {
+      "id": "kyne.ast-grep",
+      "name": "AST-grep",
+      "version": "1.0.0",
+      "description": "Structural code search and rewrite with ast-grep for syntax-aware matching that is more precise than plain text search.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/ast-grep/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.difftastic",
+      "name": "Difftastic",
+      "version": "1.0.1",
+      "description": "Syntax-aware structural diffing that makes code changes easier to review than line-oriented text diffs.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/difftastic/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.actionlint",
+      "name": "Actionlint",
+      "version": "1.0.1",
+      "description": "Static validation for GitHub Actions workflow files with focused diagnostics for workflow syntax and expression errors.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/actionlint/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.shellcheck",
+      "name": "ShellCheck",
+      "version": "1.0.1",
+      "description": "Shell script static analysis for correctness, portability, quoting, expansion, and common command-line pitfalls.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/shellcheck/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.hyperfine",
+      "name": "Hyperfine",
+      "version": "1.0.1",
+      "description": "Command-line benchmarking with statistical timing summaries for controlled performance comparisons.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/hyperfine/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "command.execute"
+      ],
+      "autoInstall": true
+    },
+    {
+      "id": "kyne.trivy",
+      "name": "Trivy",
+      "version": "1.0.0",
+      "description": "Trivy integration for explicit local vulnerability, secret, filesystem, container, and configuration security scanning.",
+      "kind": "cli",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/trivy/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "command.execute",
+        "network"
+      ],
+      "autoInstall": false
+    },
+    {
+      "id": "kyne.ci-failure-triage",
+      "name": "CI Failure Triage",
+      "version": "1.0.0",
+      "description": "Focused CI debugging workflow that starts from the newest concrete failure and validates the smallest behavior-preserving fix.",
+      "kind": "skill",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/ci-failure-triage/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "workspace.write",
+        "command.execute"
+      ],
+      "autoInstall": false
+    },
+    {
+      "id": "kyne.regression-hunt",
+      "name": "Regression Hunt",
+      "version": "1.0.0",
+      "description": "Deterministic Git regression-hunting workflow for locating the first bad revision with bisect while protecting the current worktree.",
+      "kind": "skill",
+      "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/regression-hunt/relai-extension.json",
+      "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+      "publisher": "Kyne",
+      "permissions": [
+        "workspace.read",
+        "command.execute",
+        "git"
+      ],
+      "autoInstall": false
     }
   ]
 }

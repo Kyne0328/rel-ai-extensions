@@ -1,0 +1,4 @@
+interface:
+  display_name: "OfficeCLI"
+  short_description: "Create, edit, validate, and visually review DOCX/Word, XLSX/Excel, and PPTX/PowerPoint files."
+  default_prompt: "Use $officecli for this DOCX/Word document, XLSX/Excel workbook, or PPTX/PowerPoint slides or deck task through Rel.AI."

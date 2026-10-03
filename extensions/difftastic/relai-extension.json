@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.difftastic",
+  "name": "Difftastic",
+  "version": "1.0.1",
+  "description": "Syntax-aware structural diffing that makes code changes easier to review than line-oriented text diffs.",
+  "kind": "cli",
+  "compatibility": {
+    "relai": ">=1.1.3 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "homepage": "https://difftastic.wilfred.me.uk/",
+  "permissions": [
+    "workspace.read",
+    "command.execute"
+  ],
+  "requires": {
+    "commands": [
+      "difft"
+    ],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "command": "difft"
+  },
+  "install": {
+    "type": "bundle",
+    "artifacts": [
+      {
+        "platform": "win32",
+        "arch": "x64",
+        "url": "https://github.com/Wilfred/difftastic/releases/download/0.71.0/difft-0.71.0-x86_64-pc-windows-msvc.zip",
+        "sha256": "9a979f9d96d739625a0fe69317f3197cc7bcef663a6d7195197d6c9bf96ed6f5",
+        "commands": [
+          {
+            "command": "difft",
+            "path": "difft.exe"
+          }
+        ]
+      },
+      {
+        "platform": "win32",
+        "arch": "arm64",
+        "url": "https://github.com/Wilfred/difftastic/releases/download/0.71.0/difft-0.71.0-aarch64-pc-windows-msvc.zip",
+        "sha256": "fbf0497f654271f9c96dfc52f06aad2163ac391ee4050f9dab7b88cba2bd9e77",
+        "commands": [
+          {
+            "command": "difft",
+            "path": "difft.exe"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "x64",
+        "url": "https://github.com/Wilfred/difftastic/releases/download/0.71.0/difft-0.71.0-x86_64-apple-darwin.tar.gz",
+        "sha256": "390b5299b0bc5059b5617f448eb1f3cb42c689933258fc57770c24d257a5d8a8",
+        "commands": [
+          {
+            "command": "difft",
+            "path": "difft"
+          }
+        ]
+      },
+      {
+        "platform": "darwin",
+        "arch": "arm64",
+        "url": "https://github.com/Wilfred/difftastic/releases/download/0.71.0/difft-0.71.0-aarch64-apple-darwin.tar.gz",
+        "sha256": "92acf8890543b6d6f436a87a7a5ec64f82a4b8dbe3a7e564c1e5cbfe60823bc7",
+        "commands": [
+          {
+            "command": "difft",
+            "path": "difft"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "x64",
+        "url": "https://github.com/Wilfred/difftastic/releases/download/0.71.0/difft-0.71.0-x86_64-unknown-linux-gnu.tar.gz",
+        "sha256": "61aea5394a53c56f144637cf39b3a0c0dafa27769731745e5851ff276e6478da",
+        "commands": [
+          {
+            "command": "difft",
+            "path": "difft"
+          }
+        ]
+      },
+      {
+        "platform": "linux",
+        "arch": "arm64",
+        "url": "https://github.com/Wilfred/difftastic/releases/download/0.71.0/difft-0.71.0-aarch64-unknown-linux-gnu.tar.gz",
+        "sha256": "5f046098b36ff985d0f99fec6f22cf74961db60386ff9d40df39fd99660aae2c",
+        "commands": [
+          {
+            "command": "difft",
+            "path": "difft"
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "6690a66120710f942e19191b09614b9fb04d6eaebca2401d5a9143faf80aeac4"
+    }
+  ]
+}
