@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Standalone optional Camoufox tool. No imports from Rel.AI's application runtime.
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -8,6 +9,7 @@ import { pathToFileURL } from 'node:url';
 
 const CAMOUFOX_VERSION = '0.5.8';
 const PLAYWRIGHT_VERSION = '1.62.0';
+const NPM_VERSION = '12.1.0';
 const supported = ['win32', 'darwin', 'linux'];
 const home = path.resolve(process.env.REL_AI_CAMOUFOX_HOME || path.join(os.homedir(), '.relai-camoufox'));
 const runtime = path.join(home, 'runtime');
@@ -82,23 +84,74 @@ async function pkgman() {
   return import(pathToFileURL(path.join(packagePath, 'dist', 'pkgman.js')).href);
 }
 
+let lastSetupReport = 0;
+function reportSetup(phase, downloadedBytes = 0, totalBytes = null) {
+  const file = String(process.env.REL_AI_EXTENSION_PROGRESS_FILE || '');
+  if (!file) return;
+  const now = Date.now();
+  if (downloadedBytes && now - lastSetupReport < 200 && (!totalBytes || downloadedBytes !== totalBytes)) return;
+  lastSetupReport = now;
+  try { fs.writeFileSync(file, JSON.stringify({ phase, downloadedBytes, totalBytes }), { mode: 0o600 }); } catch {}
+}
+
+async function provisionNpm() {
+  const npmRoot = path.join(runtime, 'npm-bootstrap');
+  const cli = path.join(npmRoot, 'bin', 'npm-cli.js');
+  if (verifiedFile(cli, 'npm CLI')) return cli;
+  reportSetup('Downloading npm installer');
+  const registryUrl = 'https://registry.npmjs.org/npm/' + NPM_VERSION;
+  const metadataResponse = await fetch(registryUrl);
+  if (!metadataResponse.ok) throw new Error('Could not fetch pinned npm package metadata.');
+  const metadata = await metadataResponse.json();
+  const tarball = new URL(metadata?.dist?.tarball || '');
+  const integrity = String(metadata?.dist?.integrity || '');
+  if (metadata.version !== NPM_VERSION || tarball.protocol !== 'https:' || tarball.hostname !== 'registry.npmjs.org'
+    || !/^sha512-[A-Za-z0-9+/=]+$/.test(integrity)) throw new Error('Unexpected npm installer metadata.');
+  const archiveResponse = await fetch(tarball);
+  if (!archiveResponse.ok || Number(archiveResponse.headers.get('content-length') || 0) > 20 * 1024 * 1024)
+    throw new Error('Npm installer download exceeds the size limit or is unavailable.');
+  const archive = Buffer.from(await archiveResponse.arrayBuffer());
+  if (archive.length > 20 * 1024 * 1024 || 'sha512-' + createHash('sha512').update(archive).digest('base64') !== integrity)
+    throw new Error('Npm installer checksum mismatch.');
+  safeDirectory(npmRoot);
+  const archivePath = path.join(runtime, '.npm-bootstrap.tar.gz');
+  try {
+    fs.writeFileSync(archivePath, archive, { mode: 0o600, flag: 'wx' });
+    const entries = spawnSync('tar', ['-tzf', archivePath], { encoding: 'utf8', timeout: 120000 });
+    if (entries.error || entries.status !== 0 || !entries.stdout.split(/\r?\n/).filter(Boolean).every(name =>
+      name.startsWith('package/') && !name.split('/').includes('..'))) throw new Error('Npm archive contains unsafe file paths.');
+    const unpacked = spawnSync('tar', ['-xzf', archivePath, '-C', npmRoot, '--strip-components=1'],
+      { encoding: 'utf8', timeout: 120000 });
+    if (unpacked.error || unpacked.status !== 0 || !verifiedFile(cli, 'npm CLI'))
+      throw new Error('Could not unpack the npm installer. A supported tar program is required.');
+  } finally { fs.rmSync(archivePath, { force: true }); }
+  return cli;
+}
+
 async function setup(downloadBrowser) {
   if (!downloadBrowser) throw new Error('Installation downloads a large browser archive. Rerun with setup --download-browser after confirming the download.');
+  reportSetup('Installing Camoufox JavaScript dependencies');
   safeDirectory(runtime);
   const npmCandidates = [process.env.npm_execpath,
     path.join(path.dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js'),
     path.join(path.dirname(process.execPath), '..', 'lib', 'node_modules', 'npm', 'bin', 'npm-cli.js')];
-  const npmCli = npmCandidates.find(file => file && verifiedFile(file, 'npm CLI'));
-  if (!npmCli && process.platform === 'win32') throw new Error('npm CLI was not found beside Node.js. Install Node.js with npm first.');
+  const npmCli = npmCandidates.find(file => file && verifiedFile(file, 'npm CLI')) || await provisionNpm();
   const args = ['install', '--prefix', runtime, '--no-audit', '--no-fund', '--ignore-scripts', '--save-exact',
     'camoufox@' + CAMOUFOX_VERSION, 'playwright-core@' + PLAYWRIGHT_VERSION];
-  const completed = npmCli
-    ? spawnSync(process.execPath, [npmCli, ...args], { stdio: 'inherit', shell: false })
-    : spawnSync('npm', args, { stdio: 'inherit', shell: false });
+  const completed = spawnSync(process.execPath, [npmCli, ...args], { stdio: 'inherit', shell: false });
   if (completed.error) throw completed.error;
   if (completed.status !== 0) throw new Error('Isolated Camoufox launcher installation failed.');
+  reportSetup('Downloading Camoufox browser (large archive)');
   const manager = await pkgman();
+  // Camoufox explicitly supports a custom downloadFile implementation.
+  // Reuse its own verified downloader and stream progress without buffering the archive.
+  manager.CamoufoxFetcher.downloadFile = async (stream, url) => {
+    await manager.webdl(url, 'Camoufox browser', false, stream, {
+      progressCallback: (downloaded, total) => reportSetup('Downloading Camoufox browser', downloaded, total || null)
+    });
+  };
   await manager.ensureCamoufoxInstalled();
+  reportSetup('Camoufox browser installed');
   console.log(JSON.stringify({ ok: true, action: 'setup', browserInstalled: true }));
 }
 
