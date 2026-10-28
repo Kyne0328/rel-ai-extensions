@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "kyne.camoufox",
+  "name": "Camoufox Agent Browser",
+  "version": "1.0.0",
+  "description": "Optional standalone Camoufox Firefox browsing with isolated saved profiles and an explicit, separately downloaded browser runtime.",
+  "kind": "skill",
+  "compatibility": {
+    "relai": ">=1.0.0 <2.0.0"
+  },
+  "publisher": {
+    "name": "Kyne",
+    "url": "https://github.com/Kyne0328"
+  },
+  "repository": "https://github.com/Kyne0328/rel-ai-extensions",
+  "permissions": [
+    "workspace.read",
+    "command.execute",
+    "network",
+    "browser"
+  ],
+  "requires": {
+    "commands": [],
+    "platforms": []
+  },
+  "entrypoints": {
+    "skill": "SKILL.md"
+  },
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "3deb6a792482f8210cbd9b5e1770af9afc814378f1ab6fee25f858feea7a38d3"
+    },
+    {
+      "path": "scripts/browser.mjs",
+      "sha256": "00bb256a743d849554a88a7e9d2ce559b97c4c3028f2d89200fef0d3d6ceb1bd"
+    }
+  ]
+}

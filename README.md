@@ -13,6 +13,7 @@ The catalog is for discovery and installation metadata. Keep each real extension
 | --- | --- | --- | --- | --- |
 | [Actionlint](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Static validation for GitHub Actions workflow files with focused diagnostics for workflow syntax and expression errors. |
 | [AST-grep](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | Structural code search and rewrite with ast-grep for syntax-aware matching that is more precise than plain text search. |
+| [Camoufox Agent Browser](https://github.com/Kyne0328/rel-ai-extensions) | `skill` | `1.0.0` | No | Optional standalone Camoufox Firefox browsing with isolated saved profiles and an explicit, separately downloaded browser runtime. |
 | [CI Failure Triage](https://github.com/Kyne0328/rel-ai-extensions) | `skill` | `1.0.0` | No | Focused CI debugging workflow that starts from the newest concrete failure and validates the smallest behavior-preserving fix. |
 | [Difftastic](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.1` | Yes | Syntax-aware structural diffing that makes code changes easier to review than line-oriented text diffs. |
 | [DuckDB](https://github.com/Kyne0328/rel-ai-extensions) | `cli` | `1.0.0` | Yes | Managed DuckDB CLI integration for fast local SQL analysis and transformation of CSV, Parquet, JSON, and other tabular data. |
