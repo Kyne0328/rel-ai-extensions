@@ -7,7 +7,7 @@ description: Optional Camoufox Firefox browsing via a standalone local CLI, with
 
 This extension **does not replace** the built-in Rel.AI Browser tool. Default `relai_browser` sessions continue using the embedded Chromium browser and retain saved logins across tasks. Use this extension only when Camoufox is specifically appropriate.
 
-The extension's small files install through Rel.AI Extensions. It requires a local Node.js/npm installation for the optional external browser runtime. It does not modify the Rel.AI application, its Playwright dependency, its Goal Mode browser, or any Chrome/Chromium profiles.
+The extension's small files install through Rel.AI Extensions. Managed catalog installation uses Node.js and bootstraps npm automatically when needed. It does not modify the Rel.AI application, its Playwright dependency, its Goal Mode browser, or any Chrome/Chromium profiles.
 
 ## Run the optional tool
 
@@ -18,7 +18,7 @@ node /path/to/extension/scripts/browser.mjs status
 node /path/to/extension/scripts/browser.mjs help
 ```
 
-**Get user consent first** before downloading Camoufox: its native browser release can exceed 1 GB and requires additional disk space. After consent, run `node /path/to/extension/scripts/browser.mjs setup --download-browser` as a supervised, cancellable command. This installs the pinned JS launcher in the user's separate extension cache and requests Camoufox's paired native browser. It does not alter Rel.AI's own `node_modules`.
+**Approved catalog installation automatically sets up the browser.** The user reviews the estimated download size and permissions in the Extensions install dialog; Rel.AI then downloads the required runtime and browser and reports byte progress. Do not ask the user to run setup again. For standalone or local development use, `node /path/to/extension/scripts/browser.mjs setup --download-browser` still works after explicit consent. Dependencies remain outside Rel.AI's own `node_modules`.
 
 Then use:
 
