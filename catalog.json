@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-28T12:13:30.000Z",
+  "updatedAt": "2026-10-28T12:49:00.000Z",
   "extensions": [
     {
       "id": "officecli",
@@ -243,8 +243,8 @@
     {
       "id": "kyne.camoufox",
       "name": "Camoufox Agent Browser",
-      "version": "1.0.0",
-      "description": "Optional standalone Camoufox Firefox browsing with isolated saved profiles and an explicit, separately downloaded browser runtime.",
+      "version": "1.1.0",
+      "description": "Optional Firefox-based agent browsing. After approval, Rel.AI automatically downloads Camoufox, reports live progress, and keeps isolated saved profiles.",
       "kind": "skill",
       "manifestUrl": "https://raw.githubusercontent.com/Kyne0328/rel-ai-extensions/main/extensions/camoufox/relai-extension.json",
       "repository": "https://github.com/Kyne0328/rel-ai-extensions",
@@ -255,8 +255,10 @@
         "network",
         "browser"
       ],
-      "autoInstall": false,
-      "featured": false
+      "autoInstall": true,
+      "featured": false,
+      "downloadBytes": 1310000000,
+      "downloadApproximate": true
     }
   ]
 }
