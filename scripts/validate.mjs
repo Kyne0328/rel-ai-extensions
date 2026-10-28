@@ -90,7 +90,7 @@ function validateManifest(manifest, label = 'extension manifest') {
 
   checkKeys(manifest, [
     'schemaVersion', 'id', 'name', 'version', 'description', 'kind', 'compatibility',
-    'publisher', 'repository', 'homepage', 'permissions', 'requires', 'entrypoints', 'install', 'files'
+    'publisher', 'repository', 'homepage', 'permissions', 'requires', 'entrypoints', 'install', 'setup', 'files'
   ], 'manifest', errors);
   if (manifest.schemaVersion !== 1) errors.push('schemaVersion must be 1.');
   if (!validText(manifest.id, 1, 80) || !ID_PATTERN.test(manifest.id)) {
@@ -212,6 +212,13 @@ function validateManifest(manifest, label = 'extension manifest') {
     }
   }
 
+  if (manifest.setup !== undefined) {
+    if (manifest.id !== 'kyne.camoufox' || manifest.kind !== 'skill' || manifest.install !== undefined
+      || !isRecord(manifest.setup) || manifest.setup.type !== 'camoufox' || Object.keys(manifest.setup).length !== 1) {
+      errors.push('Only kyne.camoufox Skill may declare managed Camoufox setup.');
+    }
+  }
+
   if (manifest.install !== undefined) {
     if (manifest.kind !== 'cli') errors.push('Only CLI extensions may declare install artifacts.');
     if (!isRecord(manifest.install)) {
@@ -324,7 +331,7 @@ function validateCatalog(catalog, label = 'extension catalog') {
       }
       checkKeys(entry, [
         'id', 'name', 'version', 'description', 'kind', 'manifestUrl',
-        'repository', 'publisher', 'permissions', 'autoInstall', 'featured'
+        'repository', 'publisher', 'permissions', 'autoInstall', 'downloadBytes', 'downloadApproximate', 'featured'
       ], `extensions[${index}]`, errors);
       if (!validText(entry.id, 1, 80) || !ID_PATTERN.test(entry.id)) {
         errors.push(`extensions[${index}].id is invalid.`);
@@ -354,6 +361,13 @@ function validateCatalog(catalog, label = 'extension catalog') {
       }
       if (entry.autoInstall !== undefined && typeof entry.autoInstall !== 'boolean') {
         errors.push(`extensions[${index}].autoInstall must be true or false.`);
+      }
+      if (entry.downloadBytes !== undefined && (!Number.isSafeInteger(entry.downloadBytes)
+        || entry.downloadBytes <= 0 || entry.downloadBytes > 3 * 1024 * 1024 * 1024)) {
+        errors.push('extensions[' + index + '].downloadBytes must be a positive bounded integer.');
+      }
+      if (entry.downloadApproximate !== undefined && typeof entry.downloadApproximate !== 'boolean') {
+        errors.push('extensions[' + index + '].downloadApproximate must be boolean.');
       }
       if (entry.featured !== undefined && typeof entry.featured !== 'boolean') {
         errors.push(`extensions[${index}].featured must be true or false.`);
@@ -471,7 +485,7 @@ async function validateCatalogEntry(entry, repoRoot) {
   if (!sameStringSet(manifest.permissions, entry.permissions)) {
     throw new Error(`${entry.id}: catalog permissions do not match the manifest.`);
   }
-  if (Boolean(manifest.install) !== Boolean(entry.autoInstall)) {
+  if (Boolean(manifest.install || manifest.setup) !== Boolean(entry.autoInstall)) {
     throw new Error(`${entry.id}: catalog autoInstall does not match the manifest.`);
   }
 
