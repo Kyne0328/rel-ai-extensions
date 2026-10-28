@@ -152,6 +152,7 @@
         }
       }
     },
+    "setup": { "type": "object", "additionalProperties": false, "required": ["type"], "properties": { "type": { "const": "camoufox" } } },
     "install": {
       "oneOf": [
         {
